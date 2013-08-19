@@ -41,6 +41,7 @@ def reader(bucket, worker_id, file_names, queue, rand):
                 error=dict(
                     msg=str(e),
                     traceback=traceback.format_exc(),
+                    key=key.name,
                     ),
                 )
             # certain kinds of programmer errors make this a busy
@@ -54,6 +55,7 @@ def reader(bucket, worker_id, file_names, queue, rand):
                     error=dict(
                         msg='md5sum check failed',
                         traceback=traceback.format_exc(),
+                        key=key.name,
                         ),
                     )
             else:
@@ -90,6 +92,7 @@ def writer(bucket, worker_id, file_names, files, queue, rand):
                 error=dict(
                     msg=str(e),
                     traceback=traceback.format_exc(),
+                    key=key.name,
                     ),
                 )
             # certain kinds of programmer errors make this a busy
@@ -250,10 +253,10 @@ def main():
         if q.qsize() > 0:
             for temp_dict in q:
                 if 'error' in temp_dict:
-                    print 'jbuck, error is : {error}\n\t$'.format(error=temp_dict['error'])
-                    raise Exception('exception:\n\t{msg}\n\t{trace}'.format(
+                    raise Exception('exception:\n\t{key}\n\t{msg}\n\t{trace}'.format(
+                                    trace=temp_dict['error']['traceback'],
+                                    key=temp_dict['error']['key'],
                                     msg=temp_dict['error']['msg'],
-                                    trace=temp_dict['error']['traceback']
                                     ))
                 else:
                     yaml.safe_dump(temp_dict, stream=real_stdout)

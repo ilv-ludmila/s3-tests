@@ -250,7 +250,7 @@ def main():
         if q.qsize() > 0:
             for temp_dict in q:
                 if 'error' in temp_dict:
-                    print 'jbuck, error is : {error}'.format(error=error)
+                    print 'jbuck, error is : {error}'.format(error=temp_dict['error'])
                     raise Exception('exception:\n\t{msg}\n\t{trace}'.format(
                                     msg=temp_dict['error']['msg'],
                                     #trace=temp_dict['error']['traceback']

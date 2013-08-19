@@ -253,8 +253,8 @@ def main():
                     print 'jbuck, error is : {error}'.format(error=error)
                     raise Exception('exception:\n\t{msg}\n\t{trace}'.format(
                                     msg=temp_dict['error']['msg'],
-                                    #trace=temp_dict['error']['traceback'])
-                                   )
+                                    #trace=temp_dict['error']['traceback']
+                                    ))
                 else:
                     yaml.safe_dump(temp_dict, stream=real_stdout)
 
